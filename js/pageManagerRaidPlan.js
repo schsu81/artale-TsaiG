@@ -741,7 +741,7 @@ function changeBoss(current){
 
   
   var inp = party.querySelector('.btnTime');
-  inp.className = "btnTime boss-"+current.value;
+  inp.className = "btn btn-gold btnTime boss-"+current.value;
 
   var grid = party.lastElementChild;
   grid.remove();

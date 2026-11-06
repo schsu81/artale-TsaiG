@@ -1,0 +1,60 @@
+/* 容器相對定位 */
+.dropdown {
+  /* display: flex; */
+  position: relative;
+  display: inline-block;
+  /* justify-content: center; */
+  /* vertical-align: middle; */
+  align-content: center;
+}
+
+/* 下拉選單預設隱藏與樣式 */
+.dropdown-menu {
+  /* display: none; 預設隱藏 */
+  position: absolute;
+  top: 100%; /* 出現在按鈕正下方 */
+  right: 0; /* 靠右對齊 (若要靠左可改為 left: 0) */
+  margin-top: 6px;
+  min-width: 160px;
+  background-color: #425679;
+  /* border: 1px solid #e2e8f0; */
+  border-radius: 8px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); */
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* 切換顯示狀態 */
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu.hidden {
+  display: none;
+}
+
+/* 選單項目樣式 */
+.dropdown-item {
+  width: 100%;
+  /* display: block; */
+  /* padding: 10px 16px; */
+  /* color: #333333; */
+  /* text-decoration: none; */
+  /* font-size: 14px; */
+  /* cursor: pointer; */
+  /* transition: background-color 0.2s ease; */
+}
+
+.dropdown-item:hover {
+  background-color: #f1f5f9;
+}
+
+.dropdown-divider {
+  margin: 4px 0;
+  border: 0;
+  /* border-top: 1px solid #e2e8f0; */
+}
+
+.text-danger {
+  color: #dc2626;
+}

@@ -1,0 +1,63 @@
+.card-char-raid { 
+  width: 150px;
+  /* padding: 6px 5px;  */
+  border-radius: 6px; 
+  border: 1px solid; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04); 
+  position: relative; 
+  height: 49px; 
+  transition: all 0.2s ease; 
+}
+
+.card-char-raid.highlight {
+  /* border-color: #00f2fe; */
+  /* background: rgba(0, 242, 254, 0.08); */
+  box-shadow: 0 0 15px rgba(255, 251, 0, 0.973); /*rgba(0, 242, 254, 0.3)*/
+  animation:  card-char-raid-pulse 0.3s infinite alternate;
+}
+@keyframes card-char-raid-pulse {
+  0% { box-shadow: 0 0 5px rgba(250, 254, 0, 0.2); }
+  100% { box-shadow: 0 0 20px rgb(255, 251, 0); }
+}
+
+.card-char-raid[job="黑騎"] { color: #2563eb !important; }
+.card-char-raid[job="聖騎"] { color: #ea580c !important; }
+.card-char-raid[job="英雄"] { color: #e11d48 !important; }
+.card-char-raid[job="主教"] { color: #b45309 !important; }
+.card-char-raid[job="冰雷"] { color: #0284c7 !important; }
+.card-char-raid[job="火毒"] { color: #dc2626 !important; }
+.card-char-raid[job="箭神"] { color: #16a34a !important; }
+.card-char-raid[job="神射"] { color: #0d9488 !important; }
+.card-char-raid[job="拳霸"] { color: #78350f !important; }
+.card-char-raid[job="槍神"] { color: #d946ef !important; }
+.card-char-raid[job="刀賊"] { color: #4b5563 !important; }
+.card-char-raid[job="鏢賊"] { color: #9333ea !important; } 
+
+.card-char-raid-job {
+  display: flex;
+  justify-content: space-evenly;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  color: #ffffff;
+}
+.card-char-raid-job.黑騎 { background-color: #2563eb !important; }
+.card-char-raid-job.聖騎 { background-color: #ea580c !important; }
+.card-char-raid-job.英雄 { background-color: #e11d48 !important; }
+.card-char-raid-job.主教 { background-color: #b45309 !important; }
+.card-char-raid-job.冰雷 { background-color: #0284c7 !important; }
+.card-char-raid-job.火毒 { background-color: #dc2626 !important; }
+.card-char-raid-job.箭神 { background-color: #16a34a !important; }
+.card-char-raid-job.神射 { background-color: #0d9488 !important; }
+.card-char-raid-job.拳霸 { background-color: #78350f !important; }
+.card-char-raid-job.槍神 { background-color: #d946ef !important; }
+.card-char-raid-job.刀賊 { background-color: #4b5563 !important; }
+.card-char-raid-job.鏢賊 { background-color: #9333ea !important; } 
+
+.card-char-raid-name {
+  display: flex;
+  justify-content: space-evenly;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+
+}
+

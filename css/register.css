@@ -1,0 +1,16 @@
+.char-box { 
+  background: #ffffff00; 
+  border: 2px solid var(--border-wood);
+  padding: 12px; 
+  border-radius: 8px; 
+  margin-bottom: 12px; 
+}
+.char-title { 
+  font-weight: bold; 
+  font-size: 13px; 
+  color: #1e40af; 
+  margin-bottom: 8px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}

@@ -1,0 +1,71 @@
+/* 
+scrolls
+└━ raid-day-column
+    ┝━ raid-day-header
+    |   └━ note
+    |
+    └━ raid-day-body
+        └━ card-party
+            ┝━ party-head
+            |   ┝━ boss-name
+            |   ┝━ time
+            |   └━ node
+            └━ party-body
+                └━ card-char-raid  <=> card-char-info 
+*/
+
+.raid-day-column { 
+  background: #ffffff00;
+  border: 1px solid #3d2314; 
+  border-radius: 10px; 
+  display: flex; 
+  flex-direction: column; 
+  min-width: 178px; 
+}
+
+.raid-day-column.highlight  {
+  background: #ff00002f;
+  padding: 1px;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.363);
+}
+
+/* .raid-day-column.highlight {
+  box-shadow: 0 0 15px rgba(255, 251, 0, 0.973); 
+  animation:  day-column-pulse 0.3s infinite alternate;
+}
+@keyframes day-column-pulse {
+  0% { box-shadow: 0 0 5px rgba(250, 254, 0, 0.2); }
+  100% { box-shadow: 0 0 20px rgb(255, 251, 0); }
+} */
+
+.raid-day-column { 
+  background: #ffffff00;
+  border: 1px solid #3d2314; 
+  border-radius: 10px; 
+  display: flex; 
+  flex-direction: column; 
+  min-width: 178px; 
+}
+
+.raid-day-header { 
+  background: #3d2314; 
+  color: #ffffff; 
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  font-weight: bold; 
+  text-align: center; 
+  padding: 6px 2px; 
+  font-size: 1.3rem;
+  border-bottom: 1px solid #3d2314; 
+}
+
+.raid-day-header.holiday {
+  color: #ff0000; 
+}
+.raid-day-body { 
+    padding: 4px; 
+    display: grid; 
+    gap: 6px; 
+    /* min-height: 600px;  */
+    grid-auto-flow: column;
+}

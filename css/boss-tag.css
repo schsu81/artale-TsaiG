@@ -1,0 +1,21 @@
+.boss-tag {
+  /* position: absolute;
+  top: -6px;
+  right: -6px; */
+  color: #fff;
+  /* font-size: 0.65rem; */
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.boss-tag.普拉    { background-color:#1d4ed8;  }
+.boss-tag.困拉    { background-color:#6b21a8;  }
+.boss-tag.炎魔    { background-color:#c2410c;  }
+.boss-tag.龍王    { background-color:#334155;  }
+.boss-tag.蝴蝶    { background-color:#15803d;  }
+.boss-tag.樹王    { background-color:#16a34a;  }
+.boss-tag.阿卡    { background-color:#b91c1c;  }
+.boss-tag.ALL     { background-color:#b45309;  }
+.boss-tag.default { background-color:#374151;  }

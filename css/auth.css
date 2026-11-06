@@ -1,0 +1,136 @@
+/* .authcard {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 35px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+} */
+
+.authcard {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%);
+  padding: 35px 30px;
+  border-radius: 16px;
+  width: 520px;
+  max-width: 380px;
+  text-align: center;
+}
+
+.authimg {
+  object-fit: fill;
+  width: 100vw; 
+  height: 100vh;
+  object-position: center;
+}
+
+h2 {
+  margin-bottom: 8px;
+  color: #23272a;
+}
+p.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* 預設隱藏區塊，避免網頁載入時畫面閃爍 */
+.view-section {
+  display: none;
+}
+
+/* 載入中狀態樣式 */
+.loading-spinner {
+  font-size: 14px;
+  color: #888;
+  padding: 20px 0;
+}
+
+.btn-oauth {
+  margin: 5px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity 0.2s;
+}
+.btn-oauth:hover {
+  opacity: 0.9;
+}
+.btn-discord {
+  background-color: #5865F2; /* discord 經典綠 */
+}
+.btn-line {
+  background-color: #06C755; /* LINE 經典綠 */
+}
+.btn-oauth svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+
+.btn-logout {
+  /* max-width: 100%;
+  width: auto; */
+  
+  color: #faf8f8;
+  background-color: rgb(4, 70, 252);
+  /* padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s; */
+}
+.btn-logout:hover {
+  background-color: rgb(39, 97, 255)
+}
+
+.btn-delete {
+  background-color: rgb(252, 4, 4);
+  color: #faf8f8;
+  /* width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s; */
+}
+.btn-delete:hover {
+  background-color: #fd3838;
+}
+
+.avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.user-details {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}

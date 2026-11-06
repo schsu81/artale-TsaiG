@@ -1,0 +1,260 @@
+<head>
+</head>
+<body>
+    
+  <!-- 1. 縱向羊皮紙捲軸 (Vertical Scroll) -->
+  <section  class="scroll-v">
+    <div class="scroll-v-cap top"></div>
+    <div id="scroll-body" class="scroll-v-body">
+    <!-------------------------------------------->
+      <div class="card">
+        <div id="characters-container" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin: 15px 0px;">
+          <div class="char-box" id="char-box-1" cid="10b9aea2-2a4d-451f-bb95-4a81949b3565">
+            <div class="char-title">
+              <span style="font-size: 15px;">⚔️ 出戰角色 #1</span>
+              <input id="cid-1" class="c-cid hidden" style="width: 0px;">
+              <button type="button" onclick="deleteBookChar('1')" style="color: red; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: none; cursor: pointer; font-weight: bold; font-size: 12px;">❌ 刪除</button>
+            </div>
+            <div class="grid-4" style="margin-bottom: 8px;">
+              <div>
+                <label>職業 (必填)</label>
+                <select class="c-job">
+                  <option value="">--請選擇--</option>
+                  <option value="黑騎">🦯黑騎</option>
+                  <option value="聖騎">⚒️聖騎</option>
+                  <option value="英雄">⚔️英雄</option>
+                  <option value="主教">🪄主教</option>
+                  <option value="冰雷">❄️冰雷</option>
+                  <option value="火毒">🔥火毒</option>
+                  <option value="箭神">🏹箭神</option>
+                  <option value="神射">🏹神射</option>
+                  <option value="拳霸">✊拳霸</option>
+                  <option value="槍神">🔫槍神</option>
+                  <option value="刀賊">🗡️刀賊</option>
+                  <option value="鏢賊">⚙️鏢賊</option>
+                </select>
+              </div>
+              <div>
+                <label>等級 (最高 200)</label>
+                <input class="oi c-level" min="1" max="200">
+              </div>
+              <div>
+                <label>出戰型態 (必填)</label>
+                <select class="c-attend">
+                  <option value="0">❌不出戰</option>
+                  <option value="1">🪷佛系出戰</option>
+                  <option value="9">💪積極出戰</option>
+                </select>
+              </div>
+              <div>
+                <label>突襲券意願 (必填)</label>
+                <select class="c-scroll">
+                  <option value="0">🎟️不使用</option>
+                  <option value="1">⚡可配合支援</option>
+                  <option value="2">🎫想使用</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom: 8px;">
+              <label style="font-weight: normal; cursor: pointer; color: rgb(30, 64, 175);">
+                <input type="checkbox" class="oi c-mw20" style="width: auto;">具備🍁楓祝20 技能
+              </label>
+            </div>
+            <hr style="border-width: 1px medium medium; border-style: dashed none none; border-color: rgb(221, 221, 221) currentcolor currentcolor; border-image: none; margin: 15px 0px;">
+            <p style="font-size: 15px; font-weight: bold; margin-bottom: 4px; color: rgb(75, 85, 99);">優先序 (9為優先,0為不打)</p>
+            <div class="grid-8" style="margin-bottom: 8px;">
+              <div>
+                <label for="inp-阿卡" class="boss-tag 阿卡">阿卡</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-阿卡" type="number" class="c-阿卡" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-樹王" class="boss-tag 樹王">樹王</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-樹王" type="number" class="c-樹王" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-蝴蝶" class="boss-tag 蝴蝶">蝴蝶</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-蝴蝶" type="number" class="c-蝴蝶" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-龍王" class="boss-tag 龍王">龍王</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-龍王" type="number" class="c-龍王" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-困拉" class="boss-tag 困拉">困拉</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-困拉" type="number" class="c-困拉" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-炎魔" class="boss-tag 炎魔">炎魔</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-炎魔" type="number" class="c-炎魔" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+              <div>
+                <label for="inp-普拉" class="boss-tag 普拉">普拉</label>
+                <button type="button" style="width:15px; margin-left: 8px;" onclick="this.nextElementSibling.stepDown()">-</button>
+                <input id="inp-普拉" type="number" class="c-普拉" style="width: 35px;" value="0" min="0" max="9" step="1">
+                <button type="button" style="width:15px; margin-right: 8px;" onclick="this.previousElementSibling.stepUp()">+</button>
+              </div>
+            </div>
+          </div>
+          <hr style="border-width: 1px medium medium; border-style: dashed none none; border-color: rgb(221, 221, 221) currentcolor currentcolor; border-image: none; margin: 15px 0px;">
+          <button type="button" class="btn btn-blue" onclick="addCharacterCard()">➕ 新增一隻角色 (自由多角出戰)</button>
+        </div>
+      </div>
+      <div class="card">
+        <div style="background: rgb(249, 250, 251); padding: 10px; border-radius: 6px; border: 1px solid rgb(238, 238, 238); margin-bottom: 10px;">
+          <div class="grid-3">
+            <div>
+              <label>日期</label>
+              <select id="time-date">
+                <option value="2026-11-10">週二 11/10</option>
+                <option value="2026-11-11">週三 11/11</option>
+                <option value="2026-11-12">週四 11/12</option>
+                <option value="2026-11-13">週五 11/13</option>
+                <option value="2026-11-14">週六 11/14</option>
+                <option value="2026-11-15">週日 11/15</option>
+                <option value="2026-11-16">週一 11/16</option>
+              </select>
+            </div>
+            <div>
+              <label>開打時間</label>
+              <select id="time-start">
+                <option value="00:00">00:00</option>
+                <option value="00:30">00:30</option>
+                <option value="01:00">01:00</option>
+                <option value="01:30">01:30</option>
+                <option value="02:00">02:00</option>
+                <option value="02:30">02:30</option>
+                <option value="03:00">03:00</option>
+                <option value="03:30">03:30</option>
+                <option value="04:00">04:00</option>
+                <option value="04:30">04:30</option>
+                <option value="05:00">05:00</option>
+                <option value="05:30">05:30</option>
+                <option value="06:00">06:00</option>
+                <option value="06:30">06:30</option>
+                <option value="07:00">07:00</option>
+                <option value="07:30">07:30</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+                <option value="20:00">20:00</option>
+                <option value="20:30">20:30</option>
+                <option value="21:00">21:00</option>
+                <option value="21:30">21:30</option>
+                <option value="22:00">22:00</option>
+                <option value="22:30">22:30</option>
+                <option value="23:00">23:00</option>
+                <option value="23:30">23:30</option>
+              </select>
+            </div>
+            <div>
+              <label>最晚開打時間</label>
+              <select id="time-lastest">
+                <option value="00:00">00:00</option>
+                <option value="00:30">00:30</option>
+                <option value="01:00">01:00</option>
+                <option value="01:30">01:30</option>
+                <option value="02:00">02:00</option>
+                <option value="02:30">02:30</option>
+                <option value="03:00">03:00</option>
+                <option value="03:30">03:30</option>
+                <option value="04:00">04:00</option>
+                <option value="04:30">04:30</option>
+                <option value="05:00">05:00</option>
+                <option value="05:30">05:30</option>
+                <option value="06:00">06:00</option>
+                <option value="06:30">06:30</option>
+                <option value="07:00">07:00</option>
+                <option value="07:30">07:30</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+                <option value="20:00">20:00</option>
+                <option value="20:30">20:30</option>
+                <option value="21:00">21:00</option>
+                <option value="21:30">21:30</option>
+                <option value="22:00">22:00</option>
+                <option value="22:30">22:30</option>
+                <option value="23:00">23:00</option>
+                <option value="23:30">23:30</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-blue btn-full" onclick="handleAddTime();">➕ 加入此時間段</button>
+        </div>
+        <label>已新增開打時段：</label>
+        <div id="added-times-list" style="margin-bottom: 15px;">
+          <div class="time-list-item">
+            <input class="hidden" value="2026-11-12">
+            <span>📅  <b>11-12 週四:</b>08:00 ~ 10:00</span>
+            <button type="button" onclick="deleteTimes(this);" style="color:red; border:none; background:none; cursor:pointer;">刪除</button>
+          </div>
+          <div class="time-list-item">
+            <input class="hidden" value="2026-11-15">
+            <span>📅  <b>11-15 週日:</b>08:00 ~ 10:00</span>
+            <button type="button" onclick="deleteTimes(this);" style="color:red; border:none; background:none; cursor:pointer;">刪除</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <progress id="saveProgress" max="100" value="0" style="display: none;"></progress>
+        <button id="saveButtion" type="button" class="btn btn-green btn-full">💾儲存</button>
+      </div>
+    <!-------------------------------------------->
+    </div>
+    <div class="scroll-v-cap bottom"></div>
+  </section>
+</body>

@@ -1,0 +1,125 @@
+/* ==========================================================================
+   楓之谷風格按鈕庫 (MapleStory Style Buttons)
+   ========================================================================== */
+
+/* 基礎按鈕設定 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 5px;
+  transition: all 0.1s ease;
+  
+  /* 楓之谷立體框線與文字陰影 */
+  border: 2px solid #1a120b;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 按下效果 (Click State) */
+.btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* 懸停光彩效果 (Hover State) */
+.btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+/* ==========================================================================
+   各色主題樣式 (Color Variants)
+   ========================================================================== */
+
+/* 1. 金黃按鈕 (經典 Maple Gold / 警告 / 提示) */
+.btn-gold {
+  background: linear-gradient(180deg, #ffe066 0%, #f5a623 50%, #d4820a 100%) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  border-color: #5c3a00 !important;
+}
+
+/* 2. 紅色按鈕 (主要動作 / 冒險 / 危險) */
+.btn-red {
+  background: linear-gradient(180deg, #ff6b6b 0%, #d93838 50%, #9e1b1b 100%) !important;
+  color: #ffffff !important;
+  border-color: #4a0a0a !important;
+}
+
+/* 3. 藍色按鈕 (確認 / 訊息 / 一般動作) */
+.btn-blue {
+  background: linear-gradient(180deg, #64b5f6 0%, #1e88e5 50%, #1565c0 100%) !important;
+  color: #ffffff !important;
+  border-color: #0d3c75 !important;
+}
+
+/* 4. 綠色按鈕 (成功 / 獎勵 / 裝備解鎖) */
+.btn-green {
+  background: linear-gradient(180deg, #81c784 0%, #43a047 50%, #2e7d32 100%) !important;
+  color: #ffffff !important;
+  border-color: #143d16 !important;
+}
+
+/* 5. 紫色按鈕 (BOSS討伐 / 稀有 / 副本) */
+.btn-purple {
+  background: linear-gradient(180deg, #ba68c8 0%, #8e24aa 50%, #6a1b9a 100%) !important;
+  color: #ffffff !important;
+  border-color: #380e54 !important;
+}
+
+/* 6. 灰色按鈕 (次要動作 / 取消) */
+.btn-gray {
+  background: linear-gradient(180deg, #b0bec5 0%, #78909c 50%, #455a64 100%) !important;
+  color: #ffffff !important;
+  border-color: #263238 !important;
+}
+
+.btn-header {
+  background: #3d2314 !important;
+  color: #ffffff !important;
+  border-color: #3d2314 !important;
+}
+
+/* 7. 停用狀態 (Disabled State) */
+.btn:disabled,
+.btn.disabled {
+  background: linear-gradient(180deg, #787878 0%, #555555 100%);
+  color: #a0a0a0;
+  border-color: #333333;
+  cursor: not-allowed;
+  text-shadow: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   尺寸微調 (Size Variants)
+   ========================================================================== */
+
+.btn-sm {
+  padding: 4px 12px;
+  font-size: 0.8rem;
+}
+
+.btn-lg {
+  padding: 12px 28px;
+  font-size: 1.1rem;
+}
+
+.btn-full {
+  width: 100%;
+  /* display: flex; */
+}

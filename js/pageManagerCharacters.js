@@ -265,16 +265,31 @@ async function createCharTable(){
             var bcid = btn.parentNode.parentNode.getAttribute('cid');
             pop = createPopUp();
 
-            var slt = document.createElement('select');
-            slt.id = 'bind-uid';
-            slt.setAttribute('bcid',bcid);
+            var sltUser = document.createElement('select');
+            sltUser.id = 'bind-uid';
+            sltUser.setAttribute('bcid',bcid);
               for (var id in profiles){
                 var opt = document.createElement('option');
                 opt.value = id;
                 opt.innerHTML = profiles[id].username;
-                slt.appendChild(opt);
+                sltUser.appendChild(opt);
               }
-            pop.appendChild(slt);
+            pop.appendChild(sltUser);
+            var sltChar = document.createElement('select');
+            sltChar.id = 'bind-cid';
+            sltChar.innerHTML = "<option value=''>---可不選角色---</option>";
+            pop.appendChild(sltChar);
+            sltUser.addEventListener('change', async function(e){
+              var { data, error } = await supabaseClient.from('characters').select('id,job,level,uname').eq('uid',sltUser.value);
+              if (error) {alert("讀取資料錯誤");return;}
+              for (var ic in data){
+                var opt = document.createElement('option');
+                opt.value = data[ic].id;
+                opt.innerHTML = data[ic].uname+" "+data[ic].job+" "+data[ic].level;
+                sltChar.appendChild(opt);
+              }
+            });
+            
 
             var div = document.createElement('div');
             div.className = "grid-2";
@@ -286,14 +301,52 @@ async function createCharTable(){
             //btnExit.style     = "position: relative; left: 50%; transform: translate(-50%, 0%);"
             btnsave.innerHTML = "確定"
             btnsave.addEventListener('click',async function(e){
-              var slt = document.getElementById('bind-uid');
-              var buid = slt.value;
-              var bcid = slt.getAttribute('bcid');
+              var buid = sltUser.value;
+              var bcid = sltUser.getAttribute('bcid');
+              var tcid = sltChar.value;
               var chars = profiles[buid].chars;
-              var { error } = await supabaseClient.from('characters').update([{uid:buid}]).eq('id',bcid);
-              if (error) {alert("角色更新失敗");document.getElementById('popmain').remove();   return;}
-              var { error } = await supabaseClient.from('profiles').update([{chars:chars}]).eq('id',buid);
-              if (error) {alert("帳號更新失敗");document.getElementById('popmain').remove();   return;} 
+              if (tcid) {
+                var { data, error } = await supabaseClient.from('schedule').select('date,parties').eq('publish',true);
+                if (error) {alert("突襲資料圖取失敗");document.getElementById('popmain').remove();   return;}
+                for (var id in data){
+                  for (var ip in data[id].parties) {
+                    for (var ic in data[id].parties[ip]['chars']) {
+                      if (data[id].parties[ip]['chars'][ic]==bcid){
+                        data[id].parties[ip]['chars'][ic] = tcid ;
+                        var {  error } = await supabaseClient.from('schedule').update([{parties:data[id].parties}]).eq('date',data[id].date);
+                        if (error) {alert("突襲更新失敗");document.getElementById('popmain').remove();   return;}
+                      }
+                    }
+                  }
+                }
+
+                var { data, error } = await supabaseClient.from('history').select('date,parties');
+                if (error) {alert("歷史資料圖取失敗");document.getElementById('popmain').remove();   return;}
+                for (var id in data){
+                  for (var ip in data[id].parties) {
+                    for (var ic in data[id].parties[ip]['chars']) {
+                      if (data[id].parties[ip]['chars'][ic]==bcid){
+                        data[id].parties[ip]['chars'][ic] = tcid ;
+                        var {  error } = await supabaseClient.from('history').update([{parties:data[id].parties}]).eq('date',data[id].date);
+                        if (error) {alert("歷史更新失敗");document.getElementById('popmain').remove();   return;}
+                      }
+                    }
+                  }
+                }
+                var { error } = await supabaseClient.from('characters').delete().eq('id',bcid);
+                if (error) {alert("舊角色刪除失敗");document.getElementById('popmain').remove();   return;}
+              }else{    
+                var { error } = await supabaseClient.from('characters').update([{uid:buid,uname:profiles[buid].username}]).eq('id',bcid);
+                if (error) {alert("角色更新失敗");document.getElementById('popmain').remove();   return;}
+                if (chars){
+                  chars.push(bcid);
+                }else{
+                  chars = [bcid];
+                }
+                var { error } = await supabaseClient.from('profiles').update([{chars:chars}]).eq('id',buid);
+                if (error) {alert("帳號更新失敗");document.getElementById('popmain').remove();   return;} 
+              }
+
               document.getElementById('popmain').remove();  
               createPageCharacters();      
             });

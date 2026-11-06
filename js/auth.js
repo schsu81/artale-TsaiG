@@ -129,8 +129,8 @@ async function loginWithOAuth(providerName) {
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: providerName,
     options: {
-      // redirectTo: "https://schsu81.github.io/artale-TsaiG"
-      redirectTo: window.location.origin
+      redirectTo: "https://schsu81.github.io/artale-TsaiG"
+      //redirectTo: window.location.origin
     }
   });
 

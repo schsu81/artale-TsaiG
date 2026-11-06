@@ -120,15 +120,16 @@ async function renderLoggedInUI(user) {
 
 // 發起 Discord 登入
 async function loginWithOAuth(providerName) {
-  const isGitHubPages = window.location.hostname.includes('github.io');
-  const redirectToUrl = isGitHubPages 
-    ? `${window.location.origin}/artale-TsaiG/` 
-    : `${window.location.origin}/`;
+  // const isGitHubPages = window.location.hostname.includes('github.io');
+  // const redirectToUrl = isGitHubPages 
+  //   ? `${window.location.origin}/artale-TsaiG/` 
+  //   : `${window.location.origin}/`;
+  // console.log(redirectToUrl);
 
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: providerName,
     options: {
-      redirectTo: redirectToUrl
+      redirectTo: "https://schsu81.github.io/artale-TsaiG"
     }
   });
 
@@ -140,7 +141,5 @@ async function loginWithOAuth(providerName) {
 async function handleLogout() {
   const { error } = await supabaseClient.auth.signOut();
   if (error) alert('登出失敗：' + error.message);
-  createLoginImg()
-
-
+  createLoginImg();
 }

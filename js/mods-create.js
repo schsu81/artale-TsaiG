@@ -271,10 +271,10 @@ function createPopUp(typ='v'){
 }
 ////////////////////////////////////////////////
 function createLoginImg(){
-  document.body.style = "width: 100%; height: 100%;overflow: hidden;";
+  document.body.style = "width: 100%; height: 100%; overflow: hidden;";
   var img = document.createElement("img");
   img.id = 'login-img';
-  img.src = "login.jfif";
+  img.src = "img/login.jfif";
   img.className = "authimg";
   document.body.prepend(img)
 }

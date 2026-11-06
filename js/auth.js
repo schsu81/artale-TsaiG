@@ -120,12 +120,15 @@ async function renderLoggedInUI(user) {
 
 // 發起 Discord 登入
 async function loginWithOAuth(providerName) {
-
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  const redirectToUrl = isGitHubPages 
+    ? `${window.location.origin}/artale-TsaiG/` 
+    : `${window.location.origin}/`;
 
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: providerName,
     options: {
-      redirectTo: window.location.origin
+      redirectTo: redirectToUrl
     }
   });
 

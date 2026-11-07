@@ -319,6 +319,7 @@ function addDragCard(char,plus=false){
   header.setAttribute('job',char.job);
     
     var div = document.createElement("div");
+    div.style = "overflow: hidden;";
     div.innerHTML = char.uname;
     header.appendChild(div);
     

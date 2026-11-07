@@ -571,6 +571,8 @@ function addParty(date,party=null){
         // 已有卡片
         if (cards[cid].getAttribute('attend')=='1'){
           // 加場
+          card = cloneCard(cards[cid]);
+          moveCardToSlot(card,slot);
         }else{
           // 常規
           moveCardToSlot(cards[cid],slot);

@@ -206,10 +206,10 @@ function createRaidParty(p,party,detail=false){
   divParty.appendChild(slots);
 
   for (var ic in local_chars){
+    if (local_chars[ic]){
     var divChar = document.createElement("div");
     var char = chars[local_chars[ic]];
     divChar.className = "card-char-raid";
-
     if (char.uid && (char.uid == UID)) {divChar.classList.add("highlight");}
     divChar.setAttribute("job",char.job);
     divChar.setAttribute("cid",char.id);
@@ -229,7 +229,7 @@ function createRaidParty(p,party,detail=false){
     div.className = "card-char-raid-name";
     div.innerHTML = char.uname;
     divChar.appendChild(div)
-    
+    }
   } // ic
   return divParty;
 }

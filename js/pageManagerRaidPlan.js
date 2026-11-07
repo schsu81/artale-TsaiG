@@ -109,7 +109,7 @@ async function createPageRaidPlan(publish=false){
 
   var div = document.createElement("div");
   div.className = "raid-day-column ";
-  div.style = "margin-top: 10px; margin-right: 6px;";
+  div.style = "margin-top: 10px; margin-right: 6px; height:756px;";
   container.appendChild(div);
 
   var divHeader = document.createElement("div");
@@ -127,6 +127,7 @@ async function createPageRaidPlan(publish=false){
   divQueues = document.createElement("div"); //global
   divQueues.id = "queue";
   divQueues.className = "queue-body boss-default";
+  divQueues.style = "overflow-y: scroll;";
   div.appendChild(divQueues);
 
   // ==================== 3. 手牌區放置與收回事件 (Hand Area) ====================
@@ -190,7 +191,7 @@ async function createPageRaidPlan(publish=false){
 
   var divContainer = document.createElement("div");
   //divContainer.id = "shift-interactive-area";
-  divContainer.style = "font-size: 12px; color: #6b7280;";
+  divContainer.style = "font-size: 12px; color: #6b7280; height: 100%;";
   divContainer.className = "plan-grid-container";
   divScroll.appendChild(divContainer)
 

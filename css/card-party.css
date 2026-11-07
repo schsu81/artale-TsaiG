@@ -60,7 +60,7 @@ raid-day-body
   display: grid;
   grid-template-columns: repeat(2, minmax(130px, 1fr)); 
   grid-template-rows: repeat(6, minmax(90px, 1fr));
-  gap: 3px;
+  gap: 5px;
   justify-items: center;
 }
 

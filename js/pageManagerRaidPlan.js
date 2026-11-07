@@ -343,6 +343,7 @@ function addDragCard(char,plus=false){
   var div = document.createElement("div");
   div.className = "card-char-plan-boss";
   card.appendChild(div)
+  return card
 }
 
 function setupCardEvents(card) {
@@ -488,6 +489,7 @@ function addParty(date,party=null){
     table.appendChild(thead);
     var tbody = document.createElement("tbody");
     local_cids.forEach(cid=>{
+      
       if (cid in queues) {
         if (date in queues[cid]['times']){ 
               var row = document.createElement('tr');
@@ -884,8 +886,9 @@ function moveCardToSlot(card, slot, isCopy = false) {
   
   // 修改卡片
   card.setAttribute("attend",1);
+  var timemark = card.querySelector('.card-char-plan-times');
+  timemark.classList.remove('hidden');
   if (cid in queues){
-    var timemark = card.querySelector('.card-char-plan-times');
     var times = queues[cid]['times'];
     if (times[date]){
       var cTimes = getTimeRange(times[date]);
@@ -896,7 +899,8 @@ function moveCardToSlot(card, slot, isCopy = false) {
     }else{
       timemark.innerHTML = "<p style='color: red;'>日期不符</p>";
     }
-    timemark.classList.remove('hidden');
+  }else{
+    timemark.innerHTML = "<p style='color: red;'>無報名資料</p>";
   }
 
 }

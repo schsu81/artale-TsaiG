@@ -8,6 +8,7 @@
   height: 90px; 
   transition: all 0.2s ease; 
   background: #cca662;
+  z-index: 300;
 }
 
 .card-char-plan.highlight {

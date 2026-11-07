@@ -836,6 +836,32 @@ document.addEventListener('click', () => {
 });
 
 // ==================== 核心邏輯函式 ====================
+function calcPartyTime(slot){
+  var cardParty = slot.parentNode.parentNode;
+  var date = cardParty.parentNode.getAttribute('date'); // for day-body
+  var current = [];
+  for (var i in dtimes) {current.push(true) ;}
+
+  var cardChars = cardParty.querySelectorAll(".card-char-plan");
+  for (var i=0;i<cardChars.length;i++){
+    var cid = cardChars[i].getAttribute('cid');
+    
+    if (cid in queues){
+      if (date in queues[cid]['times']){
+        var times = queues[cid]['times'][date];
+        current = current.map((num, index) => num * times[index])
+      }
+    }
+  }
+
+  var time = "時間不合";
+  for (var it in dtimes){
+    if (current[it]) {time = dtimes[it];break;}
+  }
+  cardParty.querySelector(".btnTime").innerHTML = time;
+  cardParty.setAttribute('time',time);
+  //a.map((num, index) => num * b[index])
+}
 
 // 移動卡牌至卡槽
 function moveCardToSlot(card, slot, isCopy = false) {
@@ -854,6 +880,7 @@ function moveCardToSlot(card, slot, isCopy = false) {
   // 將卡牌放入新卡槽
   slot.appendChild(card);
   slot.classList.add('has-card');
+  calcPartyTime(slot);
   
   // 修改卡片
   card.setAttribute("attend",1);
@@ -882,14 +909,14 @@ function moveCardToHand(card, isSilent = false) {
   timemark.classList.add('hidden');
   card.setAttribute("attend",0);
   
+  // 移動回手牌區
+  divQueues.appendChild(card);
   
   // 若原先在卡槽，釋放該卡槽
   if (oldParent.classList.contains('card-slot')) {
     oldParent.classList.remove('has-card');
+    calcPartyTime(oldParent);
   }
-  
-  // 移動回手牌區
-  divQueues.appendChild(card);
 }
 
 // 高亮「可放置的目標」
@@ -1138,6 +1165,3 @@ function cloneCard(originalCard) {
   return cloned;
 }
 
-function calcPartyTime(){
-  alert("44456");
-}

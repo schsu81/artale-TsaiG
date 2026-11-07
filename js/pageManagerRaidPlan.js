@@ -898,10 +898,10 @@ function moveCardToSlot(card, slot, isCopy = false) {
       for (var it=1;it<cTimes.length;it++) { timemark.innerHTML += "<p>⏰"+cTimes[0]+"</p>"}
       if (!priority.includes(boss)) {timemark.innerHTML += "<p style='color: red;'>boss不符</p>"};
     }else{
-      timemark.innerHTML = "<p style='color: red;'>日期不符</p>";
+      timemark.innerHTML = "<p style='color: #ff0000;'>日期不符</p>";
     }
   }else{
-    timemark.innerHTML = "<p style='color: red;'>無報名資料</p>";
+    timemark.innerHTML = "<p style='color: #ffd000;'>無報名資料</p>";
   }
 
 }

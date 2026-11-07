@@ -53,7 +53,7 @@ async function createPageRegister(){
   scrollBody.appendChild(divTimes);
 
   var h4 = document.createElement("h3");
-  h4.innerHTML = "開打時間";
+  h4.innerHTML = "開打時間 (可拖曳選取)";
   divTimes.appendChild(h4);
 
   var contain = document.createElement("div");

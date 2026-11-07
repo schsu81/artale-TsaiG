@@ -1,0 +1,10 @@
+raid-day-column ([date])
+  └━raid-day-body (id=body-{date},[date]) 
+      └━ card-party (id=party-{pid},[boss,time])
+          └━party-body-12
+              └━card-slot (class=s{date})
+                  └━card-char-plan ([cid,card-id,job,attend,boss])
+
+
+┝━
+└━

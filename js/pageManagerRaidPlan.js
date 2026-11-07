@@ -24,7 +24,6 @@ async function createPageRaidPlan(publish=false){
   count_boss = {};
   mainNavClick();
   document.getElementById('nav-link-User').className = "nav-link btn btn-blue";
-  //document.getElementById('user-menu').classList.remove('show');
 
   var container = document.getElementById('main-view');
   const response = await fetch('pages/managerRaid.html');
@@ -33,7 +32,6 @@ async function createPageRaidPlan(publish=false){
   container.innerHTML = html;
   
   var scrollBody = document.getElementById('scroll-body');
-  //scrollBody.style = "width:1400px;"
   scrollBody.innerHTML = "";
 
   var block = document.createElement("div");
@@ -44,12 +42,6 @@ async function createPageRaidPlan(publish=false){
   var div = document.createElement("div");
   div.style = "display: grid; grid-auto-flow: column; justify-content: start; gap: 5px;"
   block.appendChild(div);
-
-  // var btn = document.createElement("button");
-  // btn.className = "btn btn-green btn-flex";
-  // btn.setAttribute("onclick","alert('可能會刪掉這個按鈕');");
-  // btn.innerHTML = "重置" ;
-  // div.appendChild(btn);
 
   var btn = document.createElement("button");
   btn.className = "btn btn-green btn-flex";
@@ -190,7 +182,6 @@ async function createPageRaidPlan(publish=false){
   container.appendChild(divScroll)
 
   var divContainer = document.createElement("div");
-  //divContainer.id = "shift-interactive-area";
   divContainer.style = "font-size: 12px; color: #6b7280; height: 100%;";
   divContainer.className = "plan-grid-container";
   divScroll.appendChild(divContainer)
@@ -214,7 +205,6 @@ async function createPageRaidPlan(publish=false){
     for (var cid in schedule[id].queue) {
       if (!(cid in queues)){ queues[cid] = schedule[id].queue[cid] ;}
     }
-    // queues[date] = schedule[id].queue;
     for (var boss in bosses) { count_boss[date][bosses[boss]] = 0; }
 
     var divCol = document.createElement("div");
@@ -236,7 +226,6 @@ async function createPageRaidPlan(publish=false){
     
     var btn = document.createElement("button");
     btn.className = "btn btn-header";
-    btn.setAttribute("date",schedule[id].date);
     btn.setAttribute("onclick",'addParty("'+date+'")');
     btn.style = "border-radius:0px;"
     divCol.appendChild(btn);
@@ -244,21 +233,18 @@ async function createPageRaidPlan(publish=false){
     
     var body = document.createElement("div");
     body.id = "body-"+date;
-    body.className = "raid-day-body body-"+date;
+    body.className = "raid-day-body";
     body.setAttribute("date",date);
-    
     divCol.appendChild(body);
     
     for (var boss in bosses){
       for (var cid in schedule[id].queue){
         var priority = schedule[id].queue[cid]['priority'];
         if (bosses[boss] != priority[0]) {continue;}
-        //var times = schedule[id].queue[cid]['times'][schedule[id].date];
         for (var ib in priority){
           count_boss[date][priority[ib]] += 1;
           if (ib >2) {break;}
         }
-        // addStatusCard(body,cid,times,priority,chars[cid]);
       }
       var div = document.createElement("div");
       div.className = "card-char-plan-count boss-tag "+boss;
@@ -266,10 +252,6 @@ async function createPageRaidPlan(publish=false){
       div.innerHTML = boss+": "+count_boss[date][boss];
       divCounter.appendChild(div);
     } // boss
-    
-    // var cards_q = divQueues.querySelectorAll('.card-char');
-    // cards_q.forEach(card =>{ cards_queue[card.getAttribute('cid')] = card; });
-    
     
     for (var cid in schedule[id].queue){
       if (cid in cards) {continue;}
@@ -306,13 +288,6 @@ function addDragCard(char,plus=false){
   cards[cardid] = card ;
   card.setAttribute("job",char.job);
   card.setAttribute("attend",0);
-
-  if ((char.id in queues) && ('priority' in queues[char.id])){
-    var priority = queues[char.id]['priority'];
-    card.setAttribute("boss",priority[0]);
-  }else{
-    card.setAttribute("boss",'ALL');
-  }
   
   var header = document.createElement("div");
   header.className = "card-char-plan-header";
@@ -346,14 +321,15 @@ function addDragCard(char,plus=false){
 
   var divBoss = document.createElement("div");
   divBoss.className = "card-char-plan-bosses";
-    if (priority){
-      for (var i in priority){
-        var span = document.createElement("span");
-        span.className += "boss-tag "+priority[i];
-        span.innerHTML = (Number(i)+1)+":"+priority[i];
-        divBoss.appendChild(span)
-      }
+  if ((char.id in queues) && ('priority' in queues[char.id])){
+    var priority = queues[char.id]['priority'];
+    for (var i in priority){
+      var span = document.createElement("span");
+      span.className += "boss-tag "+priority[i];
+      span.innerHTML = (Number(i)+1)+":"+priority[i];
+      divBoss.appendChild(span)
     }
+  }
   card.appendChild(divBoss);
 
   divQueues.appendChild(card) ;
@@ -362,27 +338,11 @@ function addDragCard(char,plus=false){
   var div = document.createElement("div");
   div.className = "card-char-plan-times hidden";
   div.style = "display: flex; flex-wrap: wrap; justify-content: space-around;"
-  //div.innerHTML = "⏰"; //+times[0]+"~"+times[1];
   card.appendChild(div)
 
   var div = document.createElement("div");
   div.className = "card-char-plan-boss";
   card.appendChild(div)
-
-  // if (priority){
-  //   for (var i in priority){
-  //     var span = document.createElement("span");
-  //     span.className += "boss-tag-v1 boss-"+priority[i];
-  //     span.innerHTML = (Number(i)+1)+":"+priority[i];
-  //     div.appendChild(span)
-  //     if (i==3) {break;}
-  //   }
-  // }else{
-  //   var span = document.createElement("span");
-  //   span.className += "boss-tag-v1 boss-default";
-  //   span.innerHTML = "1 ALL";
-  //   div.appendChild(span)
-  // }
 }
 
 function setupCardEvents(card) {
@@ -432,12 +392,10 @@ function setupCardEvents(card) {
 
 function addParty(date,party=null){
   var body = document.getElementById('body-'+date);
-  var pid = parties.length;
+  var pid = Object.keys(parties).length;
   var divParty = document.createElement("div");
   //divParty.draggable = "true"
   parties[pid] = divParty;
-  divParty.setAttribute('pid',pid);
-  divParty.setAttribute('date',date);
   body.appendChild(divParty);
   //divParty.style = "";
 
@@ -452,19 +410,18 @@ function addParty(date,party=null){
     var nslot = 6;
   }
 
-  divParty.className = "card-party ";
+  divParty.className = "card-party";
+  divParty.id = "party-"+pid;
+  divParty.setAttribute('pid',pid);
   divParty.setAttribute('boss',boss);
 
   var divPartyHeader = document.createElement("div");
   divPartyHeader.className = "party-header";
-  divPartyHeader.setAttribute('boss',boss)
   divParty.appendChild(divPartyHeader)
-
 
   var div = document.createElement("div");
   div.style = "display: flex; gap: 5px";
   divPartyHeader.appendChild(div);
-  
 
   var slt = document.createElement("select");
   slt.setAttribute("onchange","changeBoss(this)");
@@ -493,7 +450,7 @@ function addParty(date,party=null){
   btn.addEventListener('click',function(e) {
     var btn = e.target;
     var party = btn.parentNode.parentNode;
-    var date  = party.getAttribute('date');
+    var date  = party.parentNode.getAttribute('date'); // from body
     var local_cards = party.querySelectorAll(".card-char-plan");
     var local_cids = [];
 
@@ -515,7 +472,6 @@ function addParty(date,party=null){
     thead.style = "vertical-align: bottom;";
       var row = document.createElement("tr");
         var col = document.createElement("th");
-        //col.style = "text-align: left;"
         col.innerHTML = "玩家";
         row.appendChild(col);
         for (var hh=8;hh<23;hh++){
@@ -557,7 +513,6 @@ function addParty(date,party=null){
 
 
     var block1 = document.createElement('div');
-    //block1.className = "block";
     block1.style = "display: grid; grid-auto-flow: column;"
     block0.appendChild(block1);
 
@@ -594,35 +549,8 @@ function addParty(date,party=null){
     btnExit.innerHTML = "取消"
     block1.appendChild(btnExit);
 
-    // party.setAttribute('time',inp.value);
-    // var slots_local = party.querySelectorAll(".card-slot");
-    // slots_local.forEach(card =>{
-    //   card.setAttribute('time',inp.value);
-    // });
   });
   divPartyHeader.appendChild(btn);
-
-  // var inp = document.createElement('input');
-  // inp.type = "text";
-  // inp.style = "width: 60px; text-align: center;";
-  // inp.className = 'inpTime';
-  // if (party && ('time' in party)) { 
-  //   divParty.setAttribute('time',party['time']);
-  //   inp.value = party['time']; 
-  // }else{
-  //   divParty.setAttribute('time',"20:00");
-  //   inp.value = "20:00"; 
-  // }
-  // inp.addEventListener('change',function(e) {
-  //   var inp = e.target;
-  //   var party = inp.parentNode.parentNode;
-  //   party.setAttribute('time',inp.value);
-  //   var slots_local = party.querySelectorAll(".card-slot");
-  //   slots_local.forEach(card =>{
-  //     card.setAttribute('time',inp.value);
-  //   });
-  // });
-  // divPartyHeader.appendChild(inp)
 
   var btn = document.createElement("button");
   btn.setAttribute("onclick","deleteParty(this)");
@@ -634,7 +562,7 @@ function addParty(date,party=null){
   grid.className = "party-body-"+nslot;
   divParty.appendChild(grid);
   for (var i=0;i<nslot;i++){ 
-    var slot = addSlot(grid,divParty,i); 
+    var slot = addSlot(grid); 
     if (party && party['chars'][i]){
       var cid = party['chars'][i];
       if (cid in cards){ 
@@ -677,18 +605,10 @@ function addParty(date,party=null){
 
 }
 
-function addSlot(p,party,i){
-  var pid = party.getAttribute('pid');
-  var date = party.getAttribute('date');
-  var boss = party.getAttribute('boss');
-  var time = party.getAttribute('time');
+function addSlot(p){
   var slot = document.createElement("div");
+  var date = p.parentNode.parentNode.getAttribute('date');
   slot.className = "card-slot s"+date;
-  slot.id        = date+"-"+i;
-  slot.setAttribute('pid',pid);
-  slot.setAttribute('date',date);
-  slot.setAttribute('boss',boss);
-  slot.setAttribute('time',time);
   p.appendChild(slot);
   slots.push(slot);
 
@@ -731,20 +651,13 @@ function addSlot(p,party,i){
 }
 
 function changeBoss(current){
-  var party = current.parentNode.parentNode;
+  var party = current.parentNode.parentNode; // card-party
   var local_cards = party.querySelectorAll(".card-char-plan");
+  party.setAttribute('boss',current.value);
+  
   local_cards.forEach(card=>{
     moveCardToHand(card);
   });
-  party.setAttribute('boss',current.value);
-  var header = party.querySelector(".party-header");
-  header.setAttribute('boss',current.value);
-  current.className = "boss-slt ";
-
-  
-  var inp = party.querySelector('.btnTime');
-  inp.className = "btn btn-gold btnTime boss-"+current.value;
-
   var grid = party.lastElementChild;
   grid.remove();
 
@@ -756,8 +669,7 @@ function changeBoss(current){
     var nslot = 6;
   }
   grid.className = "party-body-"+nslot;
-  for (var i=0;i<nslot;i++){  addSlot(grid,party,i); }
-
+  for (var i=0;i<nslot;i++){  addSlot(grid); }
 }
 
 function deleteParty(current){
@@ -775,9 +687,9 @@ function deleteParty(current){
 
 function scheduleGetPayload (){
   var payload = [];
-  var divDates = document.querySelectorAll(".raid-day-column");
+  var dayBody = document.querySelectorAll(".raid-day-body");
   
-  divDates.forEach(divDate=>{
+  dayBody.forEach(divDate=>{
     var date = divDate.getAttribute('date');
     //跳過待組區
     if (date){
@@ -788,9 +700,14 @@ function scheduleGetPayload (){
           var time = divParties[ip].getAttribute('time');
           var boss = divParties[ip].getAttribute('boss');
           lparties[ip] = {'time':time,'boss':boss,'chars':[]}
-          var lchars = divParties[ip].querySelectorAll('.card-char-plan');
-          lchars.forEach(char=>{
-            var cid = char.getAttribute('cid');
+          var lslots = divParties[ip].querySelectorAll('.card-slot');
+          lslots.forEach(slot=>{
+            var cardChar = slot.querySelector(".card-char-plan");
+            if (cardChar){
+              var cid = cardChar.getAttribute('cid');
+            }else{
+              var cid = "";
+            }
             lparties[ip]['chars'].push(cid);
           });
         }
@@ -878,7 +795,6 @@ async function previewPlan(){
     var btnExit = document.createElement("button");
       btnExit.className = "btn btn-gray";
       btnExit.style = "margin: 2px";
-      //btnExit.style     = "position: relative; left: 50%; transform: translate(-50%, 0%);"
       btnExit.setAttribute("onclick","this.parentNode.parentNode.parentNode.remove()")
       btnExit.innerHTML = "取消"
     div.appendChild(btnExit);
@@ -924,8 +840,9 @@ document.addEventListener('click', () => {
 // 移動卡牌至卡槽
 function moveCardToSlot(card, slot, isCopy = false) {
   const oldParent = card.parentElement;
-  var date = slot.getAttribute('date');
-  var boss = slot.getAttribute('boss');
+  var dayBody = slot.parentNode.parentNode.parentNode;
+  var date = dayBody.getAttribute('date');
+  var boss = slot.parentNode.parentNode.getAttribute('boss'); 
   var cid = card.getAttribute('cid');
   var cardid = card.getAttribute('card-id');
   
@@ -981,14 +898,15 @@ function highlightValidTargets(card) {
   var cid = card.getAttribute('cid');
 
   if (cid in queues){
-    for (date in queues[cid]['times']){
+    for (var date in queues[cid]['times']){
       var priority = queues[cid]['priority'];
       var slts = document.querySelectorAll('.s'+date);
       slts.forEach(slot => {
-          if (!slot.classList.contains('has-card') && (priority.includes(slot.getAttribute('boss'))) ) {
+          if (!slot.classList.contains('has-card') && (priority.includes(slot.parentNode.parentNode.getAttribute('boss'))) ) {
             slot.classList.add('highlight');
           }
       });
+
       divDayCols.forEach(divCol=>{
         if (date == divCol.getAttribute('date')){divCol.classList.add('highlight');}
       });

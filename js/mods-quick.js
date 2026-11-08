@@ -27,3 +27,12 @@ function getTimeRange(boolTimes){
   }
   return cTimes
 }
+
+function list_remove(olist,item){
+  var new_list = [];
+  for (var i=0;i<olist.length;i++){
+    if (olist[i]==item) {continue;}
+    new_list.push(item);
+  }  
+  return new_list;
+}

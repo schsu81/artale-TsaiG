@@ -10,6 +10,7 @@ let selectedCard = null; // 當前點擊選取的卡牌
 let selectedParty = null; 
 let count_boss = {};
 let divDayCols = [];
+//let profiles = {};
 
 async function createPageRaidPlan(publish=false){
   cards = {};
@@ -187,25 +188,25 @@ async function createPageRaidPlan(publish=false){
   divScroll.appendChild(divContainer)
 
 
-  var {data: schedule,error} = await supabaseClient.from('schedule').select('date,queue,parties,holiday').eq('publish',publish).order('date', { ascending: true });
+  var {data: schedule, error} = await supabaseClient.from('schedule').select('date,queue,parties,holiday').eq('publish',publish).order('date', { ascending: true });
   if (error) {alert("資料庫載入: schedule");return;}
+  var {data: temp, error} = await supabaseClient.from('profiles').select('id,chars');
+  for (var i in temp){ profiles[temp[i].id] = temp[i]; }
 
-  var {data: temp,error} = await supabaseClient.from('characters').select('*');
+  var {data: temp, error} = await supabaseClient.from('characters').select('id,job,level,MW20,attend,scroll,uid,uname');
   if (error) {alert("資料庫載入: characters");return;}
-  for (var i in temp){
-    chars[temp[i].id] = temp[i];
-  }
+  for (var i in temp){ chars[temp[i].id] = temp[i]; }
   delete temp;
 
   for (var id in schedule){
     var date = schedule[id].date;
     var d = new Date(date+" GMT+8");
 
-    count_boss[date] = {};
     for (var cid in schedule[id].queue) {
       if (!(cid in queues)){ queues[cid] = schedule[id].queue[cid] ;}
     }
-    for (var boss in bosses) { count_boss[date][bosses[boss]] = 0; }
+    count_boss[date] = {};
+    for (var boss in bosses) {count_boss[date][boss] = [];}
 
     var divCol = document.createElement("div");
     divCol.className = "raid-day-column";
@@ -220,7 +221,7 @@ async function createPageRaidPlan(publish=false){
     divCol.appendChild(divHeader);
 
     var divCounter = document.createElement("div");
-    divCounter.className = "grid-4";
+    divCounter.className = "grid-4 divTags";
     divCounter.style = "gap:1px;"
     divHeader.appendChild(divCounter)
     
@@ -240,17 +241,11 @@ async function createPageRaidPlan(publish=false){
     for (var boss in bosses){
       for (var cid in schedule[id].queue){
         var priority = schedule[id].queue[cid]['priority'];
-        if (bosses[boss] != priority[0]) {continue;}
-        for (var ib in priority){
-          count_boss[date][priority[ib]] += 1;
-          if (ib >2) {break;}
+        if (priority.includes(boss) ) {
+          if (!count_boss[date][boss].includes(chars[cid].uid)){count_boss[date][boss].push(chars[cid].uid)}
         }
       }
-      var div = document.createElement("div");
-      div.className = "card-char-plan-count boss-tag "+boss;
-      div.style = "font-size: 0.6rem;"
-      div.innerHTML = boss+": "+count_boss[date][boss];
-      divCounter.appendChild(div);
+      createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(count_boss[date][boss]).length,divCounter);
     } // boss
     
     for (var cid in schedule[id].queue){
@@ -904,6 +899,24 @@ function moveCardToSlot(card, slot, isCopy = false) {
     timemark.innerHTML = "<p style='color: #ffd000;'>無報名資料</p>";
   }
 
+  // 計算人數
+  // if ((cid==cardid) && chars[cid].uid){
+  //   console.log( chars[cid])
+  //   var uid = chars[cid].uid;
+  //   var lchars = profiles[uid].chars;
+  //   for (var date in count_boss){
+  //     for (var boss in bosses) { 
+  //       //刪除
+  //       if (uid in count_boss[date][boss]) {count_boss[date][boss] = list_remove(count_boss[date][boss],uid)};
+  //       //補回其他角色
+  //       for (var ic=0;ic<lchars.length;ic++){
+  //         if (lchars.id==cid) {continue;}
+  //         if (!count_boss[date][boss].includes(uid)) {count_boss[date][boss].push(uid);}
+  //       }
+  //     }
+  //   }
+  //   updateTags();
+  // }
 }
 
 // 移動卡牌回手牌區
@@ -1168,5 +1181,16 @@ function cloneCard(originalCard) {
   // 為新複製的卡牌重新繫結完整事件
   setupCardEvents(cloned);
   return cloned;
+}
+
+function updateTags(){
+  var divTagses = document.querySelectorAll(".divTags");
+  divTagses.forEach(divTags=>{
+    var date = divTags.parentNode.parentNode.getAttribute('date'); //from column
+    divTags.innerHTML = "";
+    for (boss in bosses){
+      createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(count_boss[date][boss]).length,divTags)
+    }
+  });
 }
 

@@ -260,6 +260,7 @@ async function createPageRaidPlan(publish=false){
     for (var ip in schedule[id].parties){ addParty(schedule[id].date,schedule[id].parties[ip]); }
   }
   sortQueueCard();
+  //updateTags();
 
 }
 
@@ -917,6 +918,7 @@ function moveCardToSlot(card, slot, isCopy = false) {
   //   }
   //   updateTags();
   // }
+  // updateTags();
 }
 
 // 移動卡牌回手牌區
@@ -935,6 +937,7 @@ function moveCardToHand(card, isSilent = false) {
     oldParent.classList.remove('has-card');
     calcPartyTime(oldParent);
   }
+  // updateTags();
 }
 
 // 高亮「可放置的目標」
@@ -1184,7 +1187,27 @@ function cloneCard(originalCard) {
 }
 
 function updateTags(){
+  var lcards = divQueues.querySelectorAll(".card-char-plan");
   var divTagses = document.querySelectorAll(".divTags");
+
+  for (var date in count_boss ) {
+    for (var boss in bosses ) { count_boss[date][boss] = []; }
+  }
+  lcards.forEach(card => {
+    var cid = card.getAttribute('cid');
+    var card_id = card.getAttribute('card-id');
+    if ((cid==card_id) && (cid in queues)) {
+      for (var boss in bosses) {
+        if (queues[cid]['priority'].includes(boss)) {
+          for (var date in count_boss){
+            if (!count_boss[date][boss].includes(chars[cid].uid)) { count_boss[date][boss].push(chars[cid].uid);}
+          }
+        }
+      }
+    }    
+  });
+  
+
   divTagses.forEach(divTags=>{
     var date = divTags.parentNode.parentNode.getAttribute('date'); //from column
     divTags.innerHTML = "";

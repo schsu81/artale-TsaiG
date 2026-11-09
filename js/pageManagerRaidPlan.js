@@ -883,7 +883,7 @@ function moveCardToSlot(card, slot, isCopy = false, calc = true) {
   // 將卡牌放入新卡槽
   slot.appendChild(card);
   slot.classList.add('has-card');
-  calcPartyTime(slot);
+  if (calc) {calcPartyTime(slot);}
   
   // 修改卡片
   card.setAttribute("attend",1);

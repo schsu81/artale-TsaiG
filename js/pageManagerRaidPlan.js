@@ -206,7 +206,7 @@ async function createPageRaidPlan(publish=false){
       if (!(cid in queues)){ queues[cid] = schedule[id].queue[cid] ;}
     }
     count_boss[date] = {};
-    for (var boss in bosses) {count_boss[date][boss] = [];}
+    for (var boss in bosses) {count_boss[date][boss] = {};}
 
     var divCol = document.createElement("div");
     divCol.className = "raid-day-column";
@@ -238,15 +238,21 @@ async function createPageRaidPlan(publish=false){
     body.setAttribute("date",date);
     divCol.appendChild(body);
     
-    for (var boss in bosses){
-      for (var cid in schedule[id].queue){
-        var priority = schedule[id].queue[cid]['priority'];
-        if (priority.includes(boss) ) {
-          if (!count_boss[date][boss].includes(chars[cid].uid)){count_boss[date][boss].push(chars[cid].uid)}
-        }
-      }
-      createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(count_boss[date][boss]).length,divCounter);
-    } // boss
+    // 計算人數
+    // for (var boss in bosses){
+    //   for (var cid in schedule[id].queue){
+    //     var priority = schedule[id].queue[cid]['priority'];
+    //     if (priority.includes(boss) ) {
+    //       //if (!count_boss[date][boss].includes(chars[cid].uid)){count_boss[date][boss].push(chars[cid].uid)}
+    //       if (chars[cid].uid in count_boss[date][boss]){
+    //         count_boss[date][boss][chars[cid].uid].push(cid);
+    //       }else{
+    //         count_boss[date][boss][chars[cid].uid] = [cid];
+    //       }
+    //     }
+    //   }
+    //   createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(count_boss[date][boss]).length,divCounter);
+    // } // boss
     
     for (var cid in schedule[id].queue){
       if (cid in cards) {continue;}
@@ -260,7 +266,7 @@ async function createPageRaidPlan(publish=false){
     for (var ip in schedule[id].parties){ addParty(schedule[id].date,schedule[id].parties[ip]); }
   }
   sortQueueCard();
-  //updateTags();
+  updateTags();
 
 }
 
@@ -509,7 +515,6 @@ function addParty(date,party=null){
       });
     table.appendChild(tbody);
 
-
     var block1 = document.createElement('div');
     block1.style = "display: grid; grid-auto-flow: column;"
     block0.appendChild(block1);
@@ -568,15 +573,15 @@ function addParty(date,party=null){
         if (cards[cid].getAttribute('attend')=='1'){
           // 加場
           card = cloneCard(cards[cid]);
-          moveCardToSlot(card,slot);
+          moveCardToSlot(card,slot,undefined,false);
         }else{
           // 常規
-          moveCardToSlot(cards[cid],slot);
+          moveCardToSlot(cards[cid],slot,undefined,false);
         }
       } else{
         // 新增卡片
         addDragCard(chars[cid],true);  
-        moveCardToSlot(cards[cid],slot);
+        moveCardToSlot(cards[cid],slot,undefined,false);
       }
     }
   }
@@ -682,7 +687,6 @@ function deleteParty(current){
   slots = slots.filter(el => el.isConnected);
   sortQueueCard();
 }
-
 
 function scheduleGetPayload (){
   var payload = [];
@@ -863,7 +867,7 @@ function calcPartyTime(slot){
 }
 
 // 移動卡牌至卡槽
-function moveCardToSlot(card, slot, isCopy = false) {
+function moveCardToSlot(card, slot, isCopy = false, calc = true) {
   const oldParent = card.parentElement;
   var dayBody = slot.parentNode.parentNode.parentNode;
   var date = dayBody.getAttribute('date');
@@ -900,29 +904,11 @@ function moveCardToSlot(card, slot, isCopy = false) {
     timemark.innerHTML = "<p style='color: #ffd000;'>無報名資料</p>";
   }
 
-  // 計算人數
-  // if ((cid==cardid) && chars[cid].uid){
-  //   console.log( chars[cid])
-  //   var uid = chars[cid].uid;
-  //   var lchars = profiles[uid].chars;
-  //   for (var date in count_boss){
-  //     for (var boss in bosses) { 
-  //       //刪除
-  //       if (uid in count_boss[date][boss]) {count_boss[date][boss] = list_remove(count_boss[date][boss],uid)};
-  //       //補回其他角色
-  //       for (var ic=0;ic<lchars.length;ic++){
-  //         if (lchars.id==cid) {continue;}
-  //         if (!count_boss[date][boss].includes(uid)) {count_boss[date][boss].push(uid);}
-  //       }
-  //     }
-  //   }
-  //   updateTags();
-  // }
-  // updateTags();
+  if (calc) { updateTags();}
 }
 
 // 移動卡牌回手牌區
-function moveCardToHand(card, isSilent = false) {
+function moveCardToHand(card) {
   const oldParent = card.parentElement;
   var cardid = card.getAttribute('card-id')
   var timemark = card.querySelector('.card-char-plan-times');
@@ -937,7 +923,8 @@ function moveCardToHand(card, isSilent = false) {
     oldParent.classList.remove('has-card');
     calcPartyTime(oldParent);
   }
-  // updateTags();
+
+  updateTags();
 }
 
 // 高亮「可放置的目標」
@@ -1015,15 +1002,6 @@ function clearSelection() {
 async function addCharAddiction(btn){
   var p = btn.parentNode;
   pop = createPopUp();
-
-  // var cover = document.createElement('div');
-  // cover.style = "position: fixed; top: 0; left: 0; z-index:998; width: 100%; height: 100%; background:rgba(0, 0, 0, 0.4);"
-  // document.body.appendChild(cover);
-
-  // var pop = document.createElement('div');
-  // pop.className = "box";
-  // pop.style = "position: fixed; top: 50%; left: 50%; z-index:999; transform: translate(-50%, -50%); ";
-  // cover.appendChild(pop);
 
   var {data:ausers,error} = await supabaseClient.from('profiles').select('id,username');
   if (error){
@@ -1187,33 +1165,50 @@ function cloneCard(originalCard) {
 }
 
 function updateTags(){
-  var lcards = divQueues.querySelectorAll(".card-char-plan");
-  var divTagses = document.querySelectorAll(".divTags");
+  var party_uids = {};
+  for (var date in count_boss ) { party_uids[date] = [];}
+
+  var divPlan = document.querySelector(".plan-grid-container");
+  var lcards = divPlan.querySelectorAll(".card-char-plan");
+  lcards.forEach(card=>{
+    var cid = card.getAttribute('cid');
+    var date = card.parentNode.parentNode.parentNode.parentNode.getAttribute('date');
+    if (chars[cid] && chars[cid].uid && (!party_uids[date].includes(chars[cid].uid))) { party_uids[date].push(chars[cid].uid);}
+  });
 
   for (var date in count_boss ) {
-    for (var boss in bosses ) { count_boss[date][boss] = []; }
+    for (var boss in bosses ) { count_boss[date][boss] = {}; }
   }
-  lcards.forEach(card => {
+  var lcards = divQueues.querySelectorAll(".card-char-plan");
+  for (var i=0;i<lcards.length;i++){
+    var card = lcards[i];
     var cid = card.getAttribute('cid');
-    var card_id = card.getAttribute('card-id');
-    if ((cid==card_id) && (cid in queues)) {
-      for (var boss in bosses) {
-        if (queues[cid]['priority'].includes(boss)) {
-          for (var date in count_boss){
-            if (!count_boss[date][boss].includes(chars[cid].uid)) { count_boss[date][boss].push(chars[cid].uid);}
+    if ((cid in chars) && (cid in queues)) {
+      var uid = chars[cid].uid;
+      for (var date in queues[cid]['times']){
+        if (party_uids[date].includes(uid)) {continue;}
+
+        for (var boss in bosses){
+          if (queues[cid]['priority'].includes(boss)){
+            if (chars[cid].uid in count_boss[date][boss]){
+              count_boss[date][boss][chars[cid].uid].push(cid);
+            }else{
+              count_boss[date][boss][chars[cid].uid] = [cid];
+            }
           }
         }
       }
-    }    
-  });
-  
+    }
+  }
 
+  var divTagses = document.querySelectorAll(".divTags");
   divTagses.forEach(divTags=>{
     var date = divTags.parentNode.parentNode.getAttribute('date'); //from column
     divTags.innerHTML = "";
-    for (boss in bosses){
+    for (var boss in bosses){
       createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(count_boss[date][boss]).length,divTags)
     }
   });
 }
+
 

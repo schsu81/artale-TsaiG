@@ -101,7 +101,7 @@ async function createPageRegister(){
           var inp = document.createElement('input');
           inp.type = "checkbox";
           inp.className = "checkbox-time";
-          if (times){
+          if (times && (Object.keys(times).length!=0)){
             if (times[schedule[id].date]){ inp.checked = times[schedule[id].date][it];}
           }else{
             if (dtimes[it]>="20:00") { inp.checked = true;}

@@ -79,6 +79,7 @@ async function createPageStatus(){
       table.appendChild(thead);
       var tbody = document.createElement("tbody");
       for (var cid in chars) {
+        if (cid in queues){
           var tr = document.createElement("tr");
             var td = document.createElement('td');
             td.innerHTML = chars[cid].uname;
@@ -124,8 +125,9 @@ async function createPageStatus(){
               }
               tr.appendChild(td);
             }
-          tbody.appendChild(tr);      
-        }
+          tbody.appendChild(tr);
+        }   
+      }
       table.appendChild(tbody);    
     container.appendChild(table);
   scroll.appendChild(container);
@@ -137,7 +139,6 @@ async function createPageStatus(){
     tags.style = "gap: 2px; justify-items: center;";
     for (var boss in bosses){
       createBossTag(boss,"font-size: 0.7rem;",boss+": "+Object.keys(counters[date][boss]).length,tags);
-      console.log(tags)
     }
     th.appendChild(tags);
 

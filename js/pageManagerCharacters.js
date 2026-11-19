@@ -205,8 +205,10 @@ async function createCharTable(){
     return;
   }
 
+  chars = {};
   for (var i in data){
     var char = data[i];
+    chars[char.id] = data[i];
 
     var tr = document.createElement('tr');
     tr.className = "divChar";
@@ -265,9 +267,14 @@ async function createCharTable(){
             var bcid = btn.parentNode.parentNode.getAttribute('cid');
             pop = createPopUp();
 
+            var p = document.createElement('p');
+            p.innerHTML = chars[bcid].uname+" "+chars[bcid].job+" "+chars[bcid].level;
+            pop.appendChild(p);
+
             var sltUser = document.createElement('select');
             sltUser.id = 'bind-uid';
             sltUser.setAttribute('bcid',bcid);
+            sltUser.innerHTML = "<option value=''>---選擇玩家---</option>";
               for (var id in profiles){
                 var opt = document.createElement('option');
                 opt.value = id;

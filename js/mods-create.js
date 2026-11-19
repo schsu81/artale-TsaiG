@@ -206,29 +206,29 @@ function createRaidParty(p,party,detail=false){
   divParty.appendChild(slots);
 
   for (var ic in local_chars){
-    if (local_chars[ic]){
-    var divChar = document.createElement("div");
     var char = chars[local_chars[ic]];
-    divChar.className = "card-char-raid";
-    if (char.uid && (char.uid == UID)) {divChar.classList.add("highlight");}
-    divChar.setAttribute("job",char.job);
-    divChar.setAttribute("cid",char.id);
-    slots.appendChild(divChar) ;
+    if (char){
+      var divChar = document.createElement("div");
+      divChar.className = "card-char-raid";
 
-    var div = document.createElement("div");
-    div.className = "card-char-raid-job "+char.job;
-    div.innerHTML = jobs[char.job];
-    if (detail ) {
-      if (char.MW20) {div.innerHTML += "🍁";}
-      div.innerHTML += " Lv."+char.level; 
-    }
-    divChar.appendChild(div)
+      if (char.uid && (char.uid == UID)) {divChar.classList.add("highlight");}
+      divChar.setAttribute("job",char.job);
+      divChar.setAttribute("cid",char.id);
+      slots.appendChild(divChar) ;
 
+      var div = document.createElement("div");
+      div.className = "card-char-raid-job "+char.job;
+      div.innerHTML = jobs[char.job];
+      if (detail ) {
+        if (char.MW20) {div.innerHTML += "🍁";}
+        div.innerHTML += " Lv."+char.level; 
+      }
+      divChar.appendChild(div)
 
-    var div = document.createElement("div");
-    div.className = "card-char-raid-name";
-    div.innerHTML = char.uname;
-    divChar.appendChild(div)
+      var div = document.createElement("div");
+      div.className = "card-char-raid-name";
+      div.innerHTML = char.uname;
+      divChar.appendChild(div)
     }
   } // ic
   return divParty;

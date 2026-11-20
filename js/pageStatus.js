@@ -117,7 +117,7 @@ async function createPageStatus(){
 
                 //td.innerHTML = queues[cid]['times'][schedule[id].date][0]+"~"+queues[cid]['times'][schedule[id].date][1];
                 for (var boss in bosses){
-                  if (queues[cid]['priority'].includes(boss)) {
+                  if (queues[cid]['priority'].includes(boss) && (chars[cid].level >= partyRequirement[boss]['level'])) {
                     if (!counters[schedule[id].date][boss].includes(chars[cid].uid)) {counters[schedule[id].date][boss].push(chars[cid].uid);}
                   }
                   // if (queues[cid]['priority'][0]==boss){counters[schedule[id].date][boss] += 1 ;}
@@ -138,7 +138,7 @@ async function createPageStatus(){
     tags.className = "grid-3";
     tags.style = "gap: 2px; justify-items: center;";
     for (var boss in bosses){
-      createBossTag(boss,"font-size: 0.7rem;",boss+": "+Object.keys(counters[date][boss]).length,tags);
+      createBossTag(boss,"font-size: 0.6rem;",boss+": "+Object.keys(counters[date][boss]).length,tags);
     }
     th.appendChild(tags);
 

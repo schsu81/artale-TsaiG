@@ -861,11 +861,20 @@ function sortQueueCard(date = null, boss = null){
       var card = crds[ic];
       var cid = card.getAttribute('cid');
       var level = card.getAttribute('level');
-      if (level<partyRequirement[boss]['level']) {continue;}
-      if ((cid in chars) && (uids.includes(chars[cid].uid))) {continue;}
-      if (!(cid in queues) || 
-          ((cid in queues) && (date in queues[cid]['times']) && queues[cid]['priority'].includes(boss))){
-        divQueues.prepend(card);
+      //if (level<partyRequirement[boss]['level']) {continue;}
+      //if ((cid in chars) && (uids.includes(chars[cid].uid))) {continue;}
+      // if (!(cid in queues) || 
+      //     ((cid in queues) && (date in queues[cid]['times']) && queues[cid]['priority'].includes(boss))){
+      //   divQueues.prepend(card);
+      //   card.classList.add("highlight");
+      // }
+      if (!((cid in queues) && (date in queues[cid]['times']) && queues[cid]['priority'].includes(boss))){
+        divQueues.appendChild(card);
+      }else if (level<partyRequirement[boss]['level']){
+        divQueues.appendChild(card);
+      }else if ((cid in chars) && (uids.includes(chars[cid].uid))) {
+        divQueues.appendChild(card);
+      }else{
         card.classList.add("highlight");
       }
     }//cardloop

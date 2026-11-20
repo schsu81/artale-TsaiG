@@ -22,6 +22,12 @@ raid-day-body
   border-color: #ffaa00;
   box-shadow: 0 0 15px #ffaa00;
   /* transform: translateY(-8px); */
+  animation:  card-party-pulse 0.3s infinite alternate;
+}
+
+@keyframes card-party-pulse {
+  0% { box-shadow: 0 0 5px rgba(250, 254, 0, 0.2); }
+  100% { box-shadow: 0 0 10px rgba(254, 0, 0, 0.9); }
 }
 
 /* .card-party[boss="普拉"] { background-color: #c5deff;  }

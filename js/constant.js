@@ -23,7 +23,7 @@ const partyRequirement = {
           'job':[]
   },
   "樹王": {'N':6,'level':170,
-          'job':[]
+          'job':[["黑騎"],["主教"],["冰雷","火毒"]]
   },
   "蝴蝶": {'N':6,'level':170,
           'job':[]

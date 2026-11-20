@@ -10,6 +10,7 @@ let selectedCard = null; // 當前點擊選取的卡牌
 let selectedParty = null; 
 let count_boss = {};
 let divDayCols = [];
+let days = {};
 //let profiles = {};
 
 async function createPageRaidPlan(publish=false){
@@ -289,6 +290,7 @@ function addDragCard(char,plus=false){
   card.setAttribute("card-id",cardid);
   cards[cardid] = card ;
   card.setAttribute("job",char.job);
+  card.setAttribute("level",char.level);
   card.setAttribute("attend",0);
   
   var header = document.createElement("div");
@@ -586,6 +588,8 @@ function addParty(date,party=null){
     }
   }
 
+  if (!party) {fillParty(divParty);}
+
   // --- 點擊事件 (Click/Tap Events) ---
   divParty.addEventListener('click', (e) => {
     e.stopPropagation(); // 阻止冒泡到 document
@@ -674,6 +678,7 @@ function changeBoss(current){
   }
   grid.className = "party-body-"+nslot;
   for (var i=0;i<nslot;i++){  addSlot(grid); }
+  fillParty(party);
 }
 
 function deleteParty(current){
@@ -815,15 +820,27 @@ async function scheduleSave(){
 function sortQueueCard(date = null, boss = null){
   var crds = divQueues.querySelectorAll('.card-char-plan');
   if (date && boss){
-    crds.forEach(card=>{
+    var divDay = document.getElementById('body-'+date);
+    var uids = [];
+    var dcrds = divDay.querySelectorAll('.card-char-plan');
+    dcrds.forEach(card=>{ 
       var cid = card.getAttribute('cid');
-      if (!((cid in queues) && (date in queues[cid]['times']) && queues[cid]['priority'].includes(boss))){
-        divQueues.appendChild(card);
-      }else{
+      if (cid in chars) {uids.push(chars[cid].uid);}
+    });
+
+    for (var ic=0;ic<crds.length;ic++){
+      var card = crds[ic];
+      var cid = card.getAttribute('cid');
+      var level = card.getAttribute('level');
+      if (level<partyRequirement[boss]['level']) {continue;}
+      if ((cid in chars) && (uids.includes(chars[cid].uid))) {continue;}
+      if (!(cid in queues) || 
+          ((cid in queues) && (date in queues[cid]['times']) && queues[cid]['priority'].includes(boss))){
+        divQueues.prepend(card);
         card.classList.add("highlight");
       }
+    }//cardloop
 
-    });
   } else { 
     for (var ib in bosses){
       crds.forEach(card=>{
@@ -1211,4 +1228,79 @@ function updateTags(){
   });
 }
 
+const partyRequirement = {
+  "阿卡": {'N':6,'level':180,
+          'job':[]
+  },
+  "樹王": {'N':6,'level':170,
+          'job':[]
+  },
+  "蝴蝶": {'N':6,'level':170,
+          'job':[]
+  },
+  '龍王': {'N':12,'level':160,
+          'job':[ ["黑騎"],["黑騎"],["刀賊"],["刀賊"],["冰雷"],["冰雷"],["拳霸"],["箭神"],["神射"],
+                  ["槍神","鏢賊"],["聖騎","英雄","黑騎"],["聖騎","英雄","黑騎"]]
+  },
+  "困拉": {'N':6,'level':150,
+          'job':[["黑騎"],["主教"],["冰雷","火毒"],["箭神","神射"]]
+  },
+  "炎魔": {'N':6,'level':130,
+          'job':[["黑騎"],["主教"],["冰雷","火毒"],["箭神","神射"]]
+  },
+  "普拉": {'N':6,'level':100,
+          'job':[["冰雷","火毒","主教"]]
+  }
+};
+function fillParty(divParty){
+  var boss = divParty.getAttribute('boss');
+  if (!(boss in partyRequirement)) {console.log("找不到組隊需求 "+boss); return;}
+  var divDay = divParty.parentNode;
+  var date = divDay.getAttribute('date');
+  var uids = [];
+  var cards = divDay.querySelectorAll('.card-char-plan');
+  cards.forEach(card=>{
+    var cid = card.getAttribute('cid');
+    if (cid in chars){uids.push(chars[cid].uid);}
+  });
 
+  var slots = divParty.querySelectorAll('.card-slot');
+  var reqs = partyRequirement[boss];
+  var divQ = document.getElementById('queue');
+
+
+  slotsloop: for (var is=0;is<slots.length;is++){
+    var cards = divQ.querySelectorAll('.card-char-plan');
+
+    cardsloop: for (var ic=0;ic<cards.length;ic++){
+      var card = cards[ic];
+      var cid = card.getAttribute('cid');
+
+      if (cid in queues){
+        if (!(date in queues[cid]['times'])) {continue cardsloop;}
+        if (!queues[cid]['priority'].includes(boss)) {continue cardsloop;}
+      }
+
+      if (cid in chars) {
+        var uid = chars[cid].uid;
+        if (uids.includes(uid)) {continue cardsloop;}
+      }
+
+      var level = card.getAttribute('level');
+      if (level>=reqs['level']){
+        if (is>=reqs['job'].length){
+          moveCardToSlot(card,slots[is]);
+          if (uid) {uids.push(uid);}
+          continue slotsloop;
+        }else{
+          var job = card.getAttribute('job');
+          if (reqs['job'][is].includes(job)){
+            moveCardToSlot(card,slots[is]);
+            if (uid) {uids.push(uid);}
+            continue slotsloop;
+          }
+        } // job 
+      } // level
+    }
+  }
+}

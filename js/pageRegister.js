@@ -381,6 +381,8 @@ async function saveBook(){
     var level = parseInt(box.querySelector('.c-level').value || 0, 10);
     if (!job || !level ) { 
       alert('請完整填寫【角色 #' + (i + 1) + '】的所有必填欄位！'); 
+      saveProgress.style.display = "none";
+      saveButtion.style.display = "block";
       return; 
     }
     var attend = Math.trunc(Number(box.querySelector('.c-attend').value));
@@ -400,7 +402,7 @@ async function saveBook(){
       var {data,error} = await supabaseClient.from('characters').insert([
         {uid:UID,uname:Profile.username,job:job,level:level,attend:attend,scroll:scroll,MW20:hasMW20,priority:priority}
       ]).select('id').single();
-      if (error){alert("角色新增錯誤"); return;}
+      if (error){alert("角色新增錯誤"); saveProgress.style.display = "none"; saveButtion.style.display = "block"; return;}
       cid.value = data.id;
       characters.push(data.id);
     }else{
@@ -427,7 +429,7 @@ async function saveBook(){
     saveProgress.value = progress;
   }
   var {error} = await supabaseClient.from('characters').upsert(payload_char);
-  if (error){alert("角色更新錯誤"); return;}
+  if (error){alert("角色更新錯誤"); saveProgress.style.display = "none"; saveButtion.style.display = "block"; return;}
 
   for (var id in schedule){
     if (ischange[id]) {
@@ -439,10 +441,10 @@ async function saveBook(){
     saveProgress.value = progress;
   }
   var {error} = await supabaseClient.from('schedule').upsert(payload_queue);
-  if (error) {alert("資料庫更新失敗:schedule day="+id);return;}
+  if (error) {alert("資料庫更新失敗:schedule day="+id); saveProgress.style.display = "none"; saveButtion.style.display = "block";return;}
 
   var {error} = await supabaseClient.from('profiles').update({chars:characters,attend:true,times:times}).eq('id',UID);
-  if (error) {alert("資料庫更新失敗:characters");return;}
+  if (error) {alert("資料庫更新失敗:characters"); saveProgress.style.display = "none"; saveButtion.style.display = "block";return;}
   progress +=1 ;
   saveProgress.value = progress;
   alert("更新完成");

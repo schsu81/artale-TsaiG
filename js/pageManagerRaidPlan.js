@@ -1235,7 +1235,7 @@ function updateTags(){
         if (party_uids[date].includes(uid)) {continue;}
 
         for (var boss in bosses){
-          if (queues[cid]['priority'].includes(boss) && chars[cid].level>=partyRequirement[boss]['level']){
+          if (queues[cid]['priority'].includes(boss) && (chars[cid].level>=partyRequirement[boss]['level'])){
             if (chars[cid].uid in count_boss[date][boss]){
               count_boss[date][boss][chars[cid].uid].push(cid);
             }else{

@@ -838,7 +838,6 @@ async function scheduleSave(){
 function sortQueueCard(date = null, boss = null){
   var crds = divQueues.querySelectorAll('.card-char-plan');
   var job = document.getElementById('queue-job').value;
-  console.log(job);
   if (job){
     crds.forEach(card=>{
       var cid = card.getAttribute('cid')

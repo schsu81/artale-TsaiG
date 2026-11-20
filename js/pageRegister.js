@@ -451,19 +451,17 @@ async function deleteBookChar(idx){
   var div = document.getElementById('char-box-'+idx );
   var cid = div.querySelector('.c-cid').value;
 
-  if (cid){
-    var {error} = await supabaseClient.from('characters').delete().eq('id',cid);
-    if (!error) { 
-      var newchars = [];
-      var {data, error} = await supabaseClient.from('profiles').select('chars').eq('id',UID).single();
-      for (char in data.chars){
-        if (data.chars[char] == cid){continue;}
-        newchars.push(data.chars[char]);
-      }
-      var {error} = await supabaseClient.from('profiles').update({chars:newchars}).eq('id',UID);
-      if (error) {alert("資料庫刪除失敗");return;}
+  // if (cid){
+  //   //var {error} = await supabaseClient.from('characters').delete().eq('id',cid);
+  //   var newchars = [];
+  //   var {data, error} = await supabaseClient.from('profiles').select('chars').eq('id',UID).single();
+  //   for (char in data.chars){
+  //     if (data.chars[char] == cid){continue;}
+  //     newchars.push(data.chars[char]);
+  //   }
+  //   var {error} = await supabaseClient.from('profiles').update({chars:newchars}).eq('id',UID);
+  //   if (error) {alert("資料庫刪除失敗");return;}
 
-    }
-  }
+  // }
   div.remove()
 }

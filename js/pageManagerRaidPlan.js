@@ -1230,30 +1230,7 @@ function updateTags(){
   });
 }
 
-const partyRequirement = {
-  "阿卡": {'N':6,'level':180,
-          'job':[]
-  },
-  "樹王": {'N':6,'level':170,
-          'job':[]
-  },
-  "蝴蝶": {'N':6,'level':170,
-          'job':[]
-  },
-  '龍王': {'N':12,'level':160,
-          'job':[ ["黑騎"],["黑騎"],["刀賊"],["刀賊"],["冰雷"],["冰雷"],["拳霸"],["箭神"],["神射"],
-                  ["槍神","鏢賊"],["聖騎","英雄","黑騎"],["聖騎","英雄","黑騎"]]
-  },
-  "困拉": {'N':6,'level':150,
-          'job':[["黑騎"],["主教"],["冰雷","火毒"],["箭神","神射"]]
-  },
-  "炎魔": {'N':6,'level':130,
-          'job':[["黑騎"],["主教"],["冰雷","火毒"],["箭神","神射"]]
-  },
-  "普拉": {'N':6,'level':100,
-          'job':[["冰雷","火毒","主教"]]
-  }
-};
+
 function fillParty(divParty){
   var boss = divParty.getAttribute('boss');
   if (!(boss in partyRequirement)) {console.log("找不到組隊需求 "+boss); return;}

@@ -118,6 +118,13 @@ async function createPageRaidPlan(publish=false){
   btn.innerHTML = "新增角色";
   div.appendChild(btn);
 
+  var slt = createCharJobSelection();
+  slt.id = "queue-job";
+  slt.addEventListener('change',()=>{
+    sortQueueCard();
+  })
+  div.appendChild(slt);
+
   divQueues = document.createElement("div"); //global
   divQueues.id = "queue";
   divQueues.className = "queue-body boss-default";
@@ -830,6 +837,18 @@ async function scheduleSave(){
 
 function sortQueueCard(date = null, boss = null){
   var crds = divQueues.querySelectorAll('.card-char-plan');
+  var job = document.getElementById('queue-job').value;
+  console.log(job);
+  if (job){
+    crds.forEach(card=>{
+      var cid = card.getAttribute('cid')
+      if (cid in chars) {
+        if (chars[cid].job ==job){
+          divQueues.prepend(card);
+        }
+      }
+    });
+  }
   if (date && boss){
     var divDay = document.getElementById('body-'+date);
     var uids = [];

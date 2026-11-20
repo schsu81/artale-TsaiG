@@ -106,6 +106,7 @@ function createUserMenu(){
 
 function createCharJobSelection(selected=null){
   var slt = document.createElement("select");
+  slt.innerHTML = "<option value=''>--選擇職業--</option>";
   for (var job in jobs){
     var opt = document.createElement("option");
     opt.value = job;

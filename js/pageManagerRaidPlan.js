@@ -456,6 +456,7 @@ function addParty(date,party=null){
     var btn = e.target;
     var party = btn.parentNode.parentNode;
     var date  = party.parentNode.getAttribute('date'); // from body
+    var ctime = party.querySelector('.btnTime').innerHTML;
     var local_cards = party.querySelectorAll(".card-char-plan");
     var local_cids = [];
 
@@ -528,6 +529,7 @@ function addParty(date,party=null){
       var opt = document.createElement("option");
       opt.value = dtimes[it];
       opt.innerHTML = dtimes[it];
+      if (ctime==dtimes[it]) {opt.selected = true;}
       slt.appendChild(opt)
     }
 

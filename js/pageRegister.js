@@ -212,7 +212,7 @@ function addCharacterBlock(data) {
     title.appendChild(deleteBtn);
 
     var grid = document.createElement('div');
-    grid.className = "grid-4";
+    grid.className = "grid-5";
     grid.style="margin-bottom: 8px;" ;
       var div = document.createElement('div');
         var lb = document.createElement('label');
@@ -244,6 +244,18 @@ function addCharacterBlock(data) {
           inp.setAttribute("max",200);
         div.appendChild(inp);
       grid.appendChild(div);
+      
+      var div = document.createElement('div');
+      div.style = "display: grid; grid-auto-flow: row; justify-items: center; justify-content: start;";
+        var lb = document.createElement('label');
+        lb.innerHTML = "🍁楓祝20";
+        div.appendChild(lb);
+        var inp = document.createElement('input');
+        inp.type = "checkbox";
+        inp.className = "c-mw20";
+        div.appendChild(inp);
+      grid.appendChild(div);
+
       var div = document.createElement('div');
         var lb = document.createElement('label');
         lb.innerHTML = "出戰型態 (必填)";
@@ -276,22 +288,6 @@ function addCharacterBlock(data) {
       grid.appendChild(div);
     box.appendChild(grid);
 
-
-    var div = document.createElement('div');
-    div.style = "display: flex; margin-bottom: 8px;";
-    box.appendChild(div);
-
-    var lb = document.createElement('label');
-    //lb.style = "font-weight:normal; cursor:pointer; color:#1e40af;";
-    
-    div.appendChild(lb);
-
-    var inp = document.createElement('input');
-    inp.type = "checkbox";
-    inp.className = "c-mw20";
-    //inp.style = "width:auto;";
-    lb.appendChild(inp);
-    lb.innerHTML += "具備🍁楓祝20 技能";
 
     box.appendChild(createSplitLine());
 

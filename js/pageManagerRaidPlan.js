@@ -409,8 +409,8 @@ function addParty(date,party=null){
   }else{
     for (var ib in bosses){var boss = bosses[ib];break;}
   }
-  if (boss=="龍王"){
-    var nslot = 12;
+  if (boss in partyRequirement){
+    var nslot = partyRequirement[boss]['N'];
   }else{
     var nslot = 6;
   }
@@ -570,6 +570,9 @@ function addParty(date,party=null){
   divParty.appendChild(grid);
   for (var i=0;i<nslot;i++){ 
     var slot = addSlot(grid); 
+    if (i<partyRequirement[boss]['job'].length){
+      slot.setAttribute('reqs-job',partyRequirement[boss]['job'][i]);
+    }
     if (party && party['chars'][i]){
       var cid = party['chars'][i];
       if (cid in cards){ 
@@ -619,6 +622,7 @@ function addSlot(p){
   var slot = document.createElement("div");
   var date = p.parentNode.parentNode.getAttribute('date');
   slot.className = "card-slot s"+date;
+  slot.setAttribute('reqs-job',"任意職業")
   p.appendChild(slot);
   slots.push(slot);
 
@@ -679,7 +683,12 @@ function changeBoss(current){
     var nslot = 6;
   }
   grid.className = "party-body-"+nslot;
-  for (var i=0;i<nslot;i++){  addSlot(grid); }
+  for (var i=0;i<nslot;i++){  
+    var slot = addSlot(grid); 
+    if (i<partyRequirement[current.value]['job'].length){
+      slot.setAttribute('reqs-job',partyRequirement[current.value]['job'][i])
+    }
+  }
   fillParty(party);
 }
 

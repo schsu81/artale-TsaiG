@@ -230,6 +230,9 @@ function createRaidParty(p,party,detail=false){
       div.className = "card-char-raid-name";
       div.innerHTML = char.uname;
       divChar.appendChild(div)
+    }else if (local_chars[ic] != "")  {
+      var date = p.getAttribute('date');
+      console.log("date="+date+" cid="+local_chars[ic]+" not found.");
     }
   } // ic
   return divParty;

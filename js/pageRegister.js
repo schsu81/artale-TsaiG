@@ -70,13 +70,13 @@ async function createPageRegister(){
   thead.style = "vertical-align: bottom;";
     var row = document.createElement("tr");
       var col = document.createElement("th");
-      //col.style = "text-align: left;"
+      //col.style = "text-align: center;"
       col.innerHTML = "日期";
       row.appendChild(col);
       for (var hh=8;hh<23;hh++){
         for (var mm=0;mm<31;mm +=30){
           var col = document.createElement("th");
-          col.style = "text-align: left;"
+          //col.style = "text-align: center;"
           if (mm==0) {col.innerHTML = (""+hh).padStart(2, '0')+"<br>"+(""+mm).padStart(2, '0');}
           else {col.innerHTML = (""+mm).padStart(2, '0');}
           row.appendChild(col);
